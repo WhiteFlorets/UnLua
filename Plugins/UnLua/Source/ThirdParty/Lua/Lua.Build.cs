@@ -23,7 +23,8 @@ public class Lua : ModuleRules
         Type = ModuleType.External;
 
         if (Target.Platform == UnrealTargetPlatform.Win64 || Target.Platform == UnrealTargetPlatform.Mac || 
-            Target.Platform == UnrealTargetPlatform.IOS || Target.Platform == UnrealTargetPlatform.Android)
+            Target.Platform == UnrealTargetPlatform.IOS || Target.Platform == UnrealTargetPlatform.Android ||
+            Target.Platform == UnrealTargetPlatform.Linux)
         {
             string LuaDynLibName = "";
             string LuaDynamicLibPath = "";
@@ -50,13 +51,17 @@ public class Lua : ModuleRules
             {
                 PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "lib/IOS/liblua.a"));
             }
-            else        // UnrealTargetPlatform.Android
+            else if (Target.Platform == UnrealTargetPlatform.Android)
             {
                 //PublicLibraryPaths.Add(Path.Combine(ModuleDirectory, "lib/Android/ARMv7"));
                 //PublicLibraryPaths.Add(Path.Combine(ModuleDirectory, "lib/Android/ARM64"));
                 //PublicAdditionalLibraries.Add("lua");
                 PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "lib/Android/ARMv7/liblua.a"));
                 PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "lib/Android/ARM64/liblua.a"));
+            }
+            else // UnrealTargetPlatform.Linux
+            {
+                PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "lib/Linux/liblua.a"));
             }
 
             if (Target.bBuildEditor == true)
